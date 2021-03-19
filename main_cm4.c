@@ -16,6 +16,9 @@
 #include "params.h"
 #include "queue.h"
 
+volatile SemaphoreHandle_t bouton_semph;
+volatile bool boutonAppuye = false;
+
  void inverseLED(){
     for(;;){
         Cy_GPIO_Write(P1_1_PORT, P1_1_NUM, 1);
@@ -26,13 +29,56 @@
 
 }
 
+void bouton_task(){
+    for(;;){   
+        if( bouton_semph != NULL )
+        {
+            
+            xSemaphoreTake( bouton_semph, pdMS_TO_TICKS(20));            
+            if( xSemaphoreTake( bouton_semph, pdMS_TO_TICKS(20) ) == pdTRUE ){
+                if(Cy_GPIO_Read(BOUTON_0_PORT, BOUTON_0_NUM) == false){
+                    UART_PutString("Bouton appuye \r\n");
+                    boutonAppuye = true;
+                }else if (Cy_GPIO_Read(BOUTON_0_PORT, BOUTON_0_NUM)){
+                    UART_PutString("Bouton relache \r\n");
+                    boutonAppuye = false;
+                }    
+                xSemaphoreGive( bouton_semph );
+            }
+        }
+    }
+}
+
+void isr_bouton(){
+    /*if(Cy_GPIO_Read(BOUTON_0_PORT, BOUTON_0_NUM)){
+        UART_PutString("Interruption enclenche 2 \r\n");
+    }else if(Cy_GPIO_Read(BOUTON_0_PORT, BOUTON_0_NUM) == false){
+        UART_PutString("Interruption enclenche 1 \r\n");
+    }
+   UART_PutString("Interruption enclenche \r\n");*/
+    
+    xSemaphoreGiveFromISR(bouton_semph,NULL);
+    Cy_GPIO_ClearInterrupt(BOUTON_0_PORT, BOUTON_0_NUM);
+    NVIC_ClearPendingIRQ(bouton_ISR_cfg.intrSrc);
+    
+}
+
 int main(void)
 {
+    bouton_semph = xSemaphoreCreateBinary();
+    
+    Cy_SysInt_Init(&bouton_ISR_cfg, isr_bouton);
+    NVIC_ClearPendingIRQ(bouton_ISR_cfg.intrSrc);
+    NVIC_EnableIRQ(bouton_ISR_cfg.intrSrc);
     __enable_irq(); /* Enable global interrupts. */
-        
-    xTaskCreate(inverseLED," ", 500, NULL, 1,0);
+    
+    UART_Start();
+    
+    UART_PutString("Debut programme \r\n");
+    
+    xTaskCreate(inverseLED,"LED", 200, NULL, 1, NULL);
+    xTaskCreate(bouton_task,"Bouton", 1000, NULL, 2, NULL);    
     vTaskStartScheduler();
-    /* Place your initialization/startup code here (e.g. MyInst_Start()) */
 
     for(;;)
     {

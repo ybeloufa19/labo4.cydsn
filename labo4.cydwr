@@ -6,7 +6,10 @@
   <Data key="DataVersionKey" value="2" />
   <Group key="DWRInstGuidMapping">
     <Group key="Pin">
-      <Data key="4cca878b-77b5-471d-8aeb-ad6925202455" value="Pin_1" />
+      <Data key="4cca878b-77b5-471d-8aeb-ad6925202455" value="GreenLED" />
+      <Data key="642db7cf-5d98-4284-ad9d-9dd9d5889ec2" value="BOUTON" />
+      <Data key="39415687-651e-46cb-8de6-0b52d1a2c07f/65f3af6c-759b-4ccb-8c66-5c95ba1f5f4f" value="UART_tx" />
+      <Data key="39415687-651e-46cb-8de6-0b52d1a2c07f/b7e8018e-1ef7-49c0-b5a5-61641a03e31c" value="UART_rx" />
       <Data key="a61270bc-07ec-447d-ac9e-34cfe85c30e9" value="GreenLED" />
     </Group>
   </Group>
@@ -598,6 +601,21 @@
     <Group key="4cca878b-77b5-471d-8aeb-ad6925202455">
       <Group key="0">
         <Data key="Port Format" value="1,1" />
+      </Group>
+    </Group>
+    <Group key="642db7cf-5d98-4284-ad9d-9dd9d5889ec2">
+      <Group key="0">
+        <Data key="Port Format" value="0,4" />
+      </Group>
+    </Group>
+    <Group key="39415687-651e-46cb-8de6-0b52d1a2c07f/65f3af6c-759b-4ccb-8c66-5c95ba1f5f4f">
+      <Group key="0">
+        <Data key="Port Format" value="5,1" />
+      </Group>
+    </Group>
+    <Group key="39415687-651e-46cb-8de6-0b52d1a2c07f/b7e8018e-1ef7-49c0-b5a5-61641a03e31c">
+      <Group key="0">
+        <Data key="Port Format" value="5,0" />
       </Group>
     </Group>
     <Group key="a61270bc-07ec-447d-ac9e-34cfe85c30e9">

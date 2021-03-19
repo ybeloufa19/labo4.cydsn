@@ -14,6 +14,9 @@
   <file name="C:\Users\youss\OneDrive\Documents\PSoC Creator\WorkspaceLab4\labo4.cydsn\codegentemp\cyfitter_gpio.h" value="HEADER;;;;;Pins and Interrupts" />
   <file name="C:\Users\youss\OneDrive\Documents\PSoC Creator\WorkspaceLab4\labo4.cydsn\codegentemp\cyfitter_sysint.h" value="HEADER;;;;;Pins and Interrupts" />
   <file name="C:\Users\youss\OneDrive\Documents\PSoC Creator\WorkspaceLab4\labo4.cydsn\codegentemp\cydisabledsheets.h" value="HEADER;;;;;" />
+  <file name="C:\Users\youss\OneDrive\Documents\PSoC Creator\WorkspaceLab4\labo4.cydsn\codegentemp\UART.c" value="SOURCE_C;CortexM0p,CortexM4;;;;UART" />
+  <file name="C:\Users\youss\OneDrive\Documents\PSoC Creator\WorkspaceLab4\labo4.cydsn\codegentemp\UART.h" value="HEADER;;;;;UART" />
+  <file name="C:\Users\youss\OneDrive\Documents\PSoC Creator\WorkspaceLab4\labo4.cydsn\codegentemp\UART_SCBCLK.h" value="HEADER;;;;;UART_SCBCLK" />
   <file name="C:\Users\youss\OneDrive\Documents\PSoC Creator\WorkspaceLab4\labo4.cydsn\codegentemp\project.h" value="OTHER;;;;;" />
   <file name="C:\Users\youss\OneDrive\Documents\PSoC Creator\WorkspaceLab4\labo4.cydsn\codegentemp\cycodeshareimport.ld" value="OTHER;;;;;" />
   <file name="C:\Users\youss\OneDrive\Documents\PSoC Creator\WorkspaceLab4\labo4.cydsn\codegentemp\cycodeshareexport.ld" value="OTHER;;;;;" />
