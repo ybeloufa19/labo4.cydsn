@@ -16,6 +16,15 @@
 #include "params.h"
 #include "queue.h"
 
+task_params_t task_A = {
+    .delay = 1000,
+    .message = "Tache A en cours \n\r"
+};
+task_params_t task_B = {
+    .delay = 999,
+    .message = "Tache B en cours \n\r"
+};
+
 volatile SemaphoreHandle_t bouton_semph;
 volatile bool boutonAppuye = false;
 
@@ -33,34 +42,24 @@ void bouton_task(){
     for(;;){   
         if( bouton_semph != NULL )
         {
-            
-            xSemaphoreTake( bouton_semph, pdMS_TO_TICKS(20));            
-            if( xSemaphoreTake( bouton_semph, pdMS_TO_TICKS(20) ) == pdTRUE ){
+            vTaskDelay(pdMS_TO_TICKS(20));           
+            if( xSemaphoreTake( bouton_semph, pdMS_TO_TICKS(0) ) == pdTRUE ){
                 if(Cy_GPIO_Read(BOUTON_0_PORT, BOUTON_0_NUM) == false){
                     UART_PutString("Bouton appuye \r\n");
-                    boutonAppuye = true;
+                    
                 }else if (Cy_GPIO_Read(BOUTON_0_PORT, BOUTON_0_NUM)){
-                    UART_PutString("Bouton relache \r\n");
-                    boutonAppuye = false;
+                    UART_PutString("Bouton relache \r\n");                    
                 }    
-                xSemaphoreGive( bouton_semph );
             }
+            //xSemaphoreGive( bouton_semph );
         }
     }
 }
 
 void isr_bouton(){
-    /*if(Cy_GPIO_Read(BOUTON_0_PORT, BOUTON_0_NUM)){
-        UART_PutString("Interruption enclenche 2 \r\n");
-    }else if(Cy_GPIO_Read(BOUTON_0_PORT, BOUTON_0_NUM) == false){
-        UART_PutString("Interruption enclenche 1 \r\n");
-    }
-   UART_PutString("Interruption enclenche \r\n");*/
-    
     xSemaphoreGiveFromISR(bouton_semph,NULL);
     Cy_GPIO_ClearInterrupt(BOUTON_0_PORT, BOUTON_0_NUM);
     NVIC_ClearPendingIRQ(bouton_ISR_cfg.intrSrc);
-    
 }
 
 int main(void)
