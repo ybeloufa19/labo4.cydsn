@@ -21,19 +21,30 @@ task_params_t task_A = {
     .message = "Tache A en cours \n\r"
 };
 task_params_t task_B = {
-    .delay = 999,
+    .delay = 900,
     .message = "Tache B en cours \n\r"
 };
 
 volatile SemaphoreHandle_t bouton_semph;
 volatile bool boutonAppuye = false;
 
- void inverseLED(){
+void inverseLED(){
     for(;;){
         Cy_GPIO_Write(P1_1_PORT, P1_1_NUM, 1);
         vTaskDelay(pdMS_TO_TICKS(500));
         Cy_GPIO_Write(P1_1_PORT, P1_1_NUM, 0);
         vTaskDelay(pdMS_TO_TICKS(500));
+    }
+
+}
+
+void print_loop(void* params){
+
+     for(;;){
+        task_params_t copyParams;
+        copyParams = *(task_params_t *)params;
+        vTaskDelay(pdMS_TO_TICKS(copyParams.delay));
+        UART_PutString(copyParams.message);
     }
 
 }
@@ -75,8 +86,10 @@ int main(void)
     
     UART_PutString("Debut programme \r\n");
     
-    xTaskCreate(inverseLED,"LED", 200, NULL, 1, NULL);
+    xTaskCreate(inverseLED,"LED", 200, NULL, 0, NULL);
     xTaskCreate(bouton_task,"Bouton", 1000, NULL, 2, NULL);    
+    xTaskCreate(print_loop, "task A", configMINIMAL_STACK_SIZE, (void*) &task_A, 1, NULL);
+    xTaskCreate(print_loop, "task B", configMINIMAL_STACK_SIZE, (void*) &task_B, 1, NULL);
     vTaskStartScheduler();
 
     for(;;)
